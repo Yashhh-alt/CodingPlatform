@@ -9,19 +9,28 @@ import java.sql.SQLException;
 
 public class LoginFrame {
 
-    JFrame frame = new JFrame("Coding Platform - Login");
-    JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-    JPanel container = new JPanel();
+    private JFrame frame = new JFrame("Coding Platform - Login");
+    private JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+    private JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+    private JPanel container = new JPanel();
 
-    JLabel usernamelabel = new JLabel("USERNAME:");
-    JTextField usernamefield = new JTextField();
+    private JLabel usernamelabel = new JLabel("USERNAME:");
+    private JTextField usernamefield = new JTextField(15);
 
-    JLabel passwordlabel = new JLabel("PASSWORD:");
-    JPasswordField passwordfield = new JPasswordField();
+    private JLabel passwordlabel = new JLabel("PASSWORD:");
+    private JPasswordField passwordfield = new JPasswordField(15);
 
-    JButton login = new JButton("Login");
+    private JButton login = new JButton("Login");
+    private JButton signup = new JButton("Sign Up");
 
     public LoginFrame() {
+        this("");
+    }
+
+    public LoginFrame(String initialUsername) {
+        if (initialUsername != null && !initialUsername.isEmpty()) {
+            usernamefield.setText(initialUsername);
+        }
 
         panel.add(usernamelabel);
         panel.add(usernamefield);
@@ -29,18 +38,25 @@ public class LoginFrame {
         panel.add(passwordlabel);
         panel.add(passwordfield);
 
+        buttonPanel.add(signup);
+        buttonPanel.add(login);
+
         panel.add(new JLabel());
-        panel.add(login);
+        panel.add(buttonPanel);
 
         container.add(panel);
         frame.add(container);
 
-        frame.setSize(400, 250);
+        frame.setSize(420, 240);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         login.addActionListener(e -> handleLogin());
+        signup.addActionListener(e -> {
+            new SignUpFrame();
+            frame.dispose();
+        });
     }
 
     private void handleLogin() {
